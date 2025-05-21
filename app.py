@@ -3,9 +3,10 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
 from PIL import Image
-
+from keras.models import load_model
 # Load trained model
-model = load_model('weather_classifier.keras')
+
+model = load_model('weather_classifier')
 
 # Define class names (order must match model training)
 class_names = ['Cloudy', 'Rain', 'Shine', 'Sunrise']

@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 
 # Load trained model
-model = load_model('weather_classifier.h5')
+model = load_model('weather_classifier.keras')
 
 # Define class names (order must match model training)
 class_names = ['Cloudy', 'Rain', 'Shine', 'Sunrise']

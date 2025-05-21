@@ -14,8 +14,8 @@ class_names = ['Cloudy', 'Rain', 'Shine', 'Sunrise']
 st.title("**FINAL SKILL EXAM:** Deep Learning Weather Image Classifier Using CNN")
 st.markdown("Name: Rick Melvhin R. Alcoseba")
 st.markdown("Section: CPE32S2")
-st.markdown("This program is a deep learning-based weather image classifier that uses a Convolutional Neural Network (CNN) to predict weather conditions from images. Users can upload any weather-related image, and the model will classify it as Cloudy, Rain, Shine, or Sunrise.")
-st.markdown("-----------------------------------------------------------------------------------------------")
+st.markdown("Upload any weather image, and the model will predict the weather condition whether it's Cloudy, Rain, Shine or Sunrise.")
+st.markdown("-----------------------------------------------------------------------------------------------------")
 # Image uploader
 uploaded_file = st.file_uploader("Upload an image...", type=["jpg", "png", "jpeg"])
 

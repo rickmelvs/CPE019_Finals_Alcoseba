@@ -3,44 +3,47 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing import image
 import numpy as np
 from PIL import Image
+import pandas as pd
 
-# Load the model (SavedModel format folder)
+# Load the model
 model = tf.keras.models.load_model('weather_classifier')
 
-# Define the class names in the order used during training
+# Class labels
 class_names = ['Cloudy', 'Rain', 'Shine', 'Sunrise']
 
-st.title("🌦️ Weather Image Classifier")
-st.markdown("Upload a weather image, and the model will predict the weather condition with high accuracy.")
+st.title("FINAL SKILL EXAM: Deep Learning Weather Image Classifier Using CNN")
+st.markdown("Upload any weather image, and the model will predict the weather condition whether it's Cloudy, Rain, Shgine or Sunrise.")
 
-# File uploader widget
+# Image uploader
 uploaded_file = st.file_uploader("Upload an image...", type=["jpg", "png", "jpeg"])
 
 if uploaded_file is not None:
-    # Load and preprocess the image
     img = Image.open(uploaded_file).convert('RGB').resize((224, 224))
     st.image(img, caption="Uploaded Image", use_column_width=True)
 
-    # Convert image to array and normalize
+    # Preprocess image
     img_array = image.img_to_array(img) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
 
     try:
-        st.write("Input shape to model:", img_array.shape)
-        st.write("Running prediction...")
-
-        # Use the serving signature for prediction
+        # Get prediction from SavedModel
         infer = model.signatures["serving_default"]
         input_tensor = tf.convert_to_tensor(img_array, dtype=tf.float32)
         output = infer(input_tensor)
-        prediction = list(output.values())[0].numpy()
+        prediction = list(output.values())[0].numpy()[0]
 
-        st.write("Raw prediction output:", prediction)
+        # Convert predictions to percent format
+        prediction_percent = [f"{p * 100:.2f}%" for p in prediction]
 
+        # Display predictions in a labeled table
+        df = pd.DataFrame([prediction_percent], columns=class_names)
+        st.markdown("###Prediction Confidence:")
+        st.table(df)
+
+        # Show final result
         predicted_class = class_names[np.argmax(prediction)]
         confidence = np.max(prediction) * 100
-
         st.success(f"**Prediction:** {predicted_class} ({confidence:.2f}% confidence)")
 
     except Exception as e:
-        st.error(f"❌ Prediction failed:\n\n{e}")
+        st.error(f"Prediction failed:\n\n{e}")

@@ -3,12 +3,12 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
 from PIL import Image
-from keras.models import load_model
-# Load trained model
+import tensorflow as tf  # make sure this import is present
 
-model = load_model('weather_classifier')
+# Load trained model (folder version)
+model = tf.keras.models.load_model('weather_classifier')
 
-# Define class names (order must match model training)
+# Define class names (same order used during training)
 class_names = ['Cloudy', 'Rain', 'Shine', 'Sunrise']
 
 st.title("🌦️ Weather Image Classifier")
@@ -25,9 +25,16 @@ if uploaded_file is not None:
     img_array = image.img_to_array(img) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
 
-    # Predict
-    prediction = model.predict(img_array)
-    predicted_class = class_names[np.argmax(prediction)]
-    confidence = np.max(prediction) * 100
+    # ✅ Step 3: Wrap prediction in a try-except block to get better error messages
+    try:
+        st.write("Input shape to model:", img_array.shape)
+        st.write("Running prediction...")
+        prediction = model.predict(img_array)
+        st.write("Raw prediction output:", prediction)
 
-    st.success(f"**Prediction:** {predicted_class} ({confidence:.2f}% confidence)")
+        predicted_class = class_names[np.argmax(prediction)]
+        confidence = np.max(prediction) * 100
+
+        st.success(f"**Prediction:** {predicted_class} ({confidence:.2f}% confidence)")
+    except Exception as e:
+        st.error(f"❌ Prediction failed:\n\n{e}")

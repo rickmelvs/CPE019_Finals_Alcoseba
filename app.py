@@ -11,7 +11,9 @@ model = tf.keras.models.load_model('weather_classifier')
 # Class labels
 class_names = ['Cloudy', 'Rain', 'Shine', 'Sunrise']
 
-st.title("FINAL SKILL EXAM: Deep Learning Weather Image Classifier Using CNN")
+st.title("**FINAL SKILL EXAM:** Deep Learning Weather Image Classifier Using CNN")
+st.markdown("Name: Rick Melvhin R. Alcoseba")
+st.markdown("Section: CPE32S2")
 st.markdown("Upload any weather image, and the model will predict the weather condition whether it's Cloudy, Rain, Shgine or Sunrise.")
 
 # Image uploader
@@ -37,7 +39,7 @@ if uploaded_file is not None:
 
         # Display predictions in a labeled table
         df = pd.DataFrame([prediction_percent], columns=class_names)
-        st.markdown("###Prediction Confidence:###")
+        st.markdown("**Prediction Confidence:**")
         st.table(df)
 
         # Show final result

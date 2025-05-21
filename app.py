@@ -37,7 +37,7 @@ if uploaded_file is not None:
 
         # Display predictions in a labeled table
         df = pd.DataFrame([prediction_percent], columns=class_names)
-        st.markdown("###Prediction Confidence:")
+        st.markdown("###Prediction Confidence:###")
         st.table(df)
 
         # Show final result
